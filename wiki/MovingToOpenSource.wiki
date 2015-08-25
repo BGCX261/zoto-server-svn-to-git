@@ -1,0 +1,63 @@
+= Introduction =
+
+Releasing software under a free software license is usually decided upon on the outset of a project.  Rarely is software released under a free software license after it's reached a mature state of development, and and is still being used in a commercial venture, or website application capacity.
+
+The hope is by releasing Zoto's software under a free license others will a) benefit from the lessons we learned writing it, b) contribute their own code in making it better for their own use, and c) help establish value in the software for companies needing a high quality, web-based, media management system.
+
+These goals will be achieved by making the software easier to install, maintain, extend, and integrate with existing website software.
+  
+= The Process =
+
+The process by which the software is released will be documented on this page.  To start, there a few basic issues to resolve before external development can begin:
+
+  * remove references in the code to Zoto's Paypal account
+  * remove the photo editing suite code from the interface (PXN8 is not part of Zoto)
+  * perform an SVN sync with Zoto's current SVN repository
+  * gather together any code changes that were living outside the repository and commit them
+
+Next, a wiki page needs to be put together on how to install Zoto and get it running on an Amazon instance:
+
+  * howto checkout
+  * dependencies howto
+  * howto configure
+  * howto start/stop
+
+After that, a few basics will need to be done to make it generic enough for others to use:
+
+  * debranding of interfaces
+  * removal of landing pages for zoto.com
+  * removal and/or making tabs to forums/blog generic, or point to something else
+
+Finally, a plan will be put together to set the course for the product:
+ 
+  * handling feature requests
+  * infrastructure priorities (db, seo, speed, lb, ha, etc.)
+  * code review process (testing on EC2)
+  * integration areas (blogging, other photo sites, printing, payments)
+
+== Progress ==
+*03/22/08* - fixed a NAT problem where the repository couldn't contact the outside world, checked out the code to an EC2 instance, discovered all the Paypal crap is committed.  Damn.
+
+*03/25/08* - As I remembered, svn doesn't support a real delete on a file in the repository.  There are at least five or six sensitive files committed to our repository, and there is no *easy* way to sync the repository to Google to preserve the older code revisions without syncing these sensitive files.  The most straightforward way to proceed is to do a new commit from the existing code base.  
+
+Edited INSTALL and HOWTO files which referenced Zoto 2.0, as well dealing with the files in the cert directory.  I'll remove reference to ones that aren't needed (qoop, paypal, etc.) later. 
+
+Noted the fact that not all the code is in the repository.  Mochikit, for one, isn't checked in.
+
+*7:00AM PST* - starting the sync to Google Code's SVN repository...
+
+*7:25AM PST* - Done! 
+
+*10:13PM PST* -  Zipped and uploaded Zoto's version of Mochikit to the download section.  In theory I need to spend some time comparing/testing what's in Mochikit's SVN and what we have running in production to figure out the diffs.  Likely that I'll blow it off and port Zoto to use jquery.
+
+Installed PostgreSQL, Psycopg2 (Python db connectors), and Twisted.  Remembered that Zoto needed to be in the /zoto/ directory.  Edited the install.cfg file for a single host install on flash (my EC2 box).
+
+Got the Nanny running.  The Nanny is used to start and stop the servers, as well as give status updates from the other instances.  Consider it a distributed version of your favorite init.d script.
+
+*04/03/08* - Back from Spring Break and the Internets have raided the roost.  People are grumbling about me originally saying commercial for-profit people need to pay for it.  Well, if they use it, they should.  As it's there, and it's web-based, there's pretty much zero I can do if they don't.  So be it.
+
+I'll commit the BSD license after I get the rest of the crap done.  This is going to take time.  People should chill, or pitch in.
+
+*04/05/08* - Back up again.  Had to sort some stuff with the Google guys.  Appreciate the help from them - the changes I made the other day are satisfactory regarding the current license.
+
+*05/05/08* - Finally got Zoto running correctly on my EC2 instance.  Next week I should have instructions up that get you an installed version of Zoto running, and an EC2 instance that can be fired up to play with.
